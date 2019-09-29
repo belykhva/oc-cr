@@ -32,6 +32,13 @@ clusterserviceversion.operators.coreos.com/openshift-pipelines-operator.v0.5.2  
 NAME                                           AGE
 servicemonitor.monitoring.coreos.com/monitor   4d2h
 ```
+Get all CustomResources in optional project:
+```
+[root@localhost]# oc cr -n openshift-operators
+
+NAME                                                                             DISPLAY                        VERSION   REPLACES   PHASE
+clusterserviceversion.operators.coreos.com/openshift-pipelines-operator.v0.5.2   OpenShift Pipelines Operator   0.5.2                Succeeded
+```
+
 # TO-DO
-- Add namespace selection support
-- Add bash-completion support for namespaces
+- ...
