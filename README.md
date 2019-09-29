@@ -1,5 +1,4 @@
 
-c-cr
 Simple oc plugin for getting all CustomResources within Kubernetes/Openshift project
 
 # Installation
