@@ -3,7 +3,12 @@
 get_cr () {
   NAMESPACED=( $(oc get crd -o=custom-columns='Name:.metadata.name,Namespaced:.spec.scope' | tail -n +2 | grep Namespaced | awk '{print $1}' ))
   LIST=$(echo $(printf -- "%s," ${NAMESPACED[*]}))
-  echo "$(oc get -n $1 ${LIST%?})"
+
+  if [ -z "$1" ]; then 
+    echo "$(oc get ${LIST%?})"
+  else
+    echo "$(oc get -n $1 ${LIST%?})"
+  fi
 }
 
 help () {
