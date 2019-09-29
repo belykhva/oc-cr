@@ -1,4 +1,44 @@
 #!/bin/bash
-NAMESPACED=( $(oc get crd -o=custom-columns='Name:.metadata.name,Namespaced:.spec.scope' | tail -n +2 | grep Namespaced | awk '{print $1}' ))
-LIST=$(echo $(printf -- "%s," ${NAMESPACED[*]}))
-echo "$(oc get ${LIST%?})"
+
+get_cr () {
+  NAMESPACED=( $(oc get crd -o=custom-columns='Name:.metadata.name,Namespaced:.spec.scope' | tail -n +2 | grep Namespaced | awk '{print $1}' ))
+  LIST=$(echo $(printf -- "%s," ${NAMESPACED[*]}))
+  echo "$(oc get -n $1 ${LIST%?})"
+}
+
+help () {
+cat <<EOF
+Display namespaced CustomResources
+
+Usage:
+  oc cr
+(-n|--namespace=...)
+
+Examples:
+  # List all CustomResources within current project
+  oc cr 
+  # List all CustomResources within setting project
+  oc cr -n default
+
+Options:
+  -n, --namespace='': Namespace string
+  -h, --help='': Display this help and exit
+EOF
+}
+
+while [ ! $# -eq 0 ]
+do
+  case "$1" in
+    --help | -h)
+      help
+      exit
+      ;;
+    --namespace | -n)
+      get_cr $2
+      exit
+      ;;
+  esac
+  shift
+done
+
+get_cr
