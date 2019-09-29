@@ -37,6 +37,11 @@ do
       get_cr $2
       exit
       ;;
+    --namespace=*)
+      nss=$(echo $1 | sed -e 's/^[^=]*=//g')
+      get_cr $nss
+      exit
+      ;;
   esac
   shift
 done
